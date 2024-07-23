@@ -1,1 +1,1 @@
-My project uses webscraping to create a python dictionary using Dictionary.com. Hope you like it!
+My project uses webscraping to create a python dictionary using Dictionary.com. It doesn't use any giant files with python dictionaries of meaning. It uses a single file with simple code and just two libraries.
