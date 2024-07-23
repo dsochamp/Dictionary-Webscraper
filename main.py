@@ -32,3 +32,4 @@ def dictionary():
 
     except urllib.request.HTTPError:
         print("\nSorry, the word you typed is not in the dictionary")
+dictionary()
