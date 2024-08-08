@@ -1,30 +1,39 @@
-import urllib.request
+import requests, os, urllib.request
 from bs4 import BeautifulSoup
-def dictionary():
-    try:
-        # This prepares the URL webscrape
-        url = "https://dictionary.com/browse/"
-        word = input("\nType a word to find its meaning ")
-        url_word = url + word
-        html = urllib.request.urlopen(url_word)
+while True:
+    word = input("Type the word for its meaning ")
+    # Checks if the user typed c and will clear the terminal if true
+    if word == "c":
+        os.system('clear')
+    # This is what happens when the above statement is false
+    else:
+        # This if statement checks id the word does actually exist
+        try:
+            # Starting the process
+            url = "https://dictionary.com/browse/"
+            url_word = url + word
+            html = urllib.request.urlopen(url_word)
+            htmlParse = BeautifulSoup(html, 'html.parser')
+            meaning = []
 
-        # Starting the process
-        htmlParse = BeautifulSoup(html, 'html.parser')
-        synonyms, result = []
+            # This web-scrapes all the list elements of the webpage
 
-        # This webscrapes all the list elements of the webpage
-        for para in htmlParse.find_all("li"):
-            synonyms.append(para.get_text())
+            for para in htmlParse.find_all("li"):
+                meaning.append(para.get_text())
+
+            # This picks out the meaning part of the page
+            result = []
+            index = 28
+
+            while index < 31:
+                result.append(meaning[index])
+                index = index + 1
+
+            # This finishes it off for the interface
+            for i in result:
+                print(f"\n{word} means - " + i + "\n")
+
+        # This handles the code if the word doesn't exist to prevent errors
+        except urllib.error.HTTPError:
+            print('The word does not exist.')
             
-        # This picks out the meaning part of the page
-        index = 29
-        while index < 31:
-            result.append(synonyms[index])
-            index = index + 1
-        # This finsishes it off for the interface
-        for i in result:
-            print(f"\n{word} means - " + i)
-    # For detecting errors        
-    except urllib.request.HTTPError:
-        print("\nSorry, the word you typed is not in the dictionary")
-dictionary()
